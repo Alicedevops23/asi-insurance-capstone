@@ -5,7 +5,6 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    // Tag the image with your Docker Hub username
                     docker.build('alicedockerhub/my-app')
                 }
             }
@@ -14,9 +13,19 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-                        // Push the image with your Docker Hub username
                         docker.image('alicedockerhub/my-app').push('latest')
                     }
+                }
+                // SSH into EC2 and run Docker container
+                sshagent(['ec2-ssh-key']) {
+                    sh """
+                    ssh -o StrictHostKeyChecking=no ubuntu@107.20.102.203 << EOF
+                    docker pull alicedockerhub/my-app:latest
+                    docker stop my-app || true
+                    docker rm my-app || true
+                    docker run -d --name my-app -p 80:80 alicedockerhub/my-app:latest
+                    EOF
+                    """
                 }
             }
         }
