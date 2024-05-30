@@ -16,7 +16,6 @@ pipeline {
                         docker.image('alicedockerhub/my-app').push('latest')
                     }
                 }
-                // SSH into EC2 and run Docker container
                 sshagent(['ec2-ssh-key']) {
                     sh """
                     ssh -o StrictHostKeyChecking=no ubuntu@107.20.102.203 << EOF
