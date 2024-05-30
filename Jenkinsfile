@@ -1,43 +1,24 @@
 pipeline {
+    agent any
 
-  agent any
-
-  stages {
-
-    stage("Build") {
-
-      steps {
-
-        script {
-
-          docker.build("my-app")
-
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    // Tag the image with your Docker Hub username
+                    docker.build('alicedockerhub/my-app')
+                }
+            }
         }
-
-      }
-
-    }
-
-    stage("Deploy") {
-
-      steps {
-
-        script {
-
-          docker.withRegistry("", "dockerhub") {
-
-            docker.image("my-app").push("latest")
-
-          }
-
+        stage('Deploy') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+                        // Push the image with your Docker Hub username
+                        docker.image('alicedockerhub/my-app').push('latest')
+                    }
+                }
+            }
         }
-
-      }
-
     }
-
-  }
-
 }
-
-
