@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub') // Ensure this ID matches your Jenkins credentials ID
-        SSH_KEY = credentials('ec2-ssh-key') // Ensure this ID matches your SSH key credentials ID
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub') // Docker Hub credentials
+        SSH_KEY = credentials('ec2-ssh-key') // SSH key credentials for EC2
     }
 
     stages {
