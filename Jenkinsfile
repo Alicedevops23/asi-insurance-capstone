@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub') // Docker Hub credentials
-        SSH_KEY = credentials('ec2-ssh-key') // SSH key credentials for EC2
     }
 
     stages {
@@ -21,7 +20,7 @@ pipeline {
                         docker.image('alicedockerhub/my-app').push('latest')
                     }
                 }
-                sshagent([SSH_KEY]) {
+                sshagent(['ec2-ssh-key']) {
                     sh '''
                     ssh -o StrictHostKeyChecking=no ubuntu@107.20.102.203 'docker pull alicedockerhub/my-app:latest'
                     ssh -o StrictHostKeyChecking=no ubuntu@107.20.102.203 'docker stop my-app || true'
