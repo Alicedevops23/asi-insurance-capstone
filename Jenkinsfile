@@ -25,7 +25,7 @@ pipeline {
                     ssh -o StrictHostKeyChecking=no ubuntu@107.20.102.203 'docker pull alicedockerhub/my-app:latest'
                     ssh -o StrictHostKeyChecking=no ubuntu@107.20.102.203 'docker stop my-app || true'
                     ssh -o StrictHostKeyChecking=no ubuntu@107.20.102.203 'docker rm my-app || true'
-                    ssh -o StrictHostKeyChecking=no ubuntu@107.20.102.203 'docker run -d --name my-app -p 8081:80 alicedockerhub/my-app:latest'
+                    ssh -o StrictHostKeyChecking=no ubuntu@107.20.102.203 'docker run -d --name my-app -p 8082:80 alicedockerhub/my-app:latest'
                     '''
                 }
             }
